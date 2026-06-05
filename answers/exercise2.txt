@@ -1,0 +1,11 @@
+docker run -it Ubuntu bash
+mkdir /usr/src/app
+ls
+cd usr
+ls
+cd src
+ls
+cd app
+touch index.js
+ls
+exit
