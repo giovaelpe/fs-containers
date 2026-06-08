@@ -1,0 +1,6 @@
+cd usr/src/app
+nano index.js
+console.log('Hello World')
+Control o
+Enter
+Control X

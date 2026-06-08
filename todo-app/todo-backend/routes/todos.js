@@ -1,6 +1,7 @@
 const express = require('express');
 const { Todo } = require('../mongo')
 const router = express.Router();
+const redis = require('../redis');
 
 /* GET todos listing. */
 router.get('/', async (_, res) => {
@@ -8,12 +9,40 @@ router.get('/', async (_, res) => {
   res.send(todos);
 });
 
+/*GET ONE TODO */
+
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const item = await Todo.findById(id);
+    res.json(item);
+  } catch (e) {
+    res.sendStatus(404);
+  }
+});
+
+/* PUT edit one todo */
+
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { text } = req.body;
+  try {
+    await Todo.updateOne({ "_id": id }, { "text": text });
+    const item = await Todo.findById(id);
+    res.json(item);
+  } catch (e) {
+    res.sendStatus(404);
+  }
+})
+
 /* POST todo to listing. */
 router.post('/', async (req, res) => {
   const todo = await Todo.create({
     text: req.body.text,
     done: false
-  })
+  });
+  const num = await redis.get("added_todos") ;
+  redis.set("added_todos", (Number(num)+1).toString());
   res.send(todo);
 });
 
@@ -29,7 +58,7 @@ const findByIdMiddleware = async (req, res, next) => {
 
 /* DELETE todo. */
 singleRouter.delete('/', async (req, res) => {
-  await req.todo.delete()  
+  await req.todo.delete()
   res.sendStatus(200);
 });
 

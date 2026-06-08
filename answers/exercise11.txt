@@ -1,0 +1,30 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. Todos los derechos reservados.
+
+Instale la versión más reciente de PowerShell para obtener nuevas características y mejoras. https://aka.ms/PSWindows
+
+PS C:\Users\satur> docker container ls
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                                           NAMES
+9adc9ed7199a   redis     "docker-entrypoint.s…"   54 minutes ago   Up 54 minutes   0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp     todo-backend-redis-1
+a67f43d99903   mongo     "docker-entrypoint.s…"   54 minutes ago   Up 54 minutes   0.0.0.0:3456->27017/tcp, [::]:3456->27017/tcp   todo-backend-mongo-1
+PS C:\Users\satur> docker exec -it todo-backend-redis-1 bash
+root@9adc9ed7199a:/data# KEYS "added_todos"
+bash: KEYS: command not found
+root@9adc9ed7199a:/data# redis_cli
+bash: redis_cli: command not found
+root@9adc9ed7199a:/data# redis-cli
+127.0.0.1:6379> KEYS "added_todos"
+1) "added_todos"
+127.0.0.1:6379> GET "added_todos"
+"2"
+127.0.0.1:6379> SET "added_todos" "9001"
+OK
+127.0.0.1:6379> GET "added_todos"
+"9001"
+127.0.0.1:6379> DEL "added_todos"
+(integer) 1
+127.0.0.1:6379> DEL "added_todos"
+(integer) 1
+127.0.0.1:6379> DEL "added_todos"
+(integer) 1
+127.0.0.1:6379>

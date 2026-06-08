@@ -21,6 +21,7 @@ if (!REDIS_URL) {
   client.connect().then(() => {
     console.log('Connected to Redis')
   })
+  client.set("added_todos", "2")
     
   get = (...args) => client.get(...args)
   set = (...args) => client.set(...args)
