@@ -14,7 +14,7 @@ const TodoForm = ({ createTodo }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input type="text" name="text" value={text} onChange={onChange} />
+      <input type="text" name="text" value={text} onChange={onChange} placeholder='test' />
       <button type="submit" data-testid="form-button"> Submit </button>
     </form>
   )

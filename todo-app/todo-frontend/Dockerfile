@@ -1,17 +1,15 @@
 #Test stage
 FROM node:24 AS test-stage
 WORKDIR /usr/src/app
+ENV VITE_BACKEND_URL=http://localhost:3000
 COPY . .
 RUN npm ci
 RUN npm test
+RUN npm run build
 
 #Run stage
-
 FROM node:24
 WORKDIR /usr/src/app
-COPY . .
-ENV VITE_BACKEND_URL=http://localhost:3000
-RUN npm ci
-RUN npm run build
 RUN npm install -g serve
+COPY --from=test-stage /usr/src/app/dist ./dist
 CMD ["serve", "-n", "-l", "4000", "dist"]
