@@ -1,6 +1,11 @@
+#Test stage
 FROM node:24 AS test-stage
 WORKDIR /usr/src/app
+COPY . .
+RUN npm ci
+RUN npm test
 
+#Run stage
 
 FROM node:24
 WORKDIR /usr/src/app
