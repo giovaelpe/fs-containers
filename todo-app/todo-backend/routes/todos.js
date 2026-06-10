@@ -25,9 +25,13 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
-  const { text } = req.body;
+  const { text, done } = req.body;
+  if(text === undefined || done === undefined){
+    res.status(400).json({error: "Some properties are missing"});
+    return;
+  }
   try {
-    await Todo.updateOne({ "_id": id }, { "text": text });
+    await Todo.updateOne({ "_id": id }, { "text": text, "done": done });
     const item = await Todo.findById(id);
     res.json(item);
   } catch (e) {
