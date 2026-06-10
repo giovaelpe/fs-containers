@@ -11,6 +11,8 @@ services:
   redis:
     image: redis
     command: ['redis-server', '--appendonly', 'yes']
+    volumes:
+      - redis_data:/data
     healthcheck:
       test: ["CMD", "redis-cli", ping]
       interval: 5s
@@ -48,3 +50,5 @@ services:
     depends_on:
       - app
       - backend
+volumes:
+  redis_data:
