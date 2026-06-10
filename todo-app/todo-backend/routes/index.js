@@ -23,7 +23,7 @@ router.get('/statistics', async(_,res) => {
     res.json({added_todos: 0});
     return
   }
-  res.json({added_todos: numTodos})
+  res.json({added_todos: Number(numTodos)})
 })
 
 //ading comment to test
