@@ -7,11 +7,18 @@ services:
       MONGO_INITDB_ROOT_DATABASE: the_database
     volumes:
       - ./todo-backend/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+
   redis:
     image: redis
     command: ['redis-server', '--appendonly', 'yes']
     volumes:
       - ./todo-backend/redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", ping]
+      interval: 5s
+      timeout: 30s
+      retries: 10
+      start_period: 30s
   backend:
     image: todo-backend
     build:
@@ -21,8 +28,10 @@ services:
       MONGO_URL: mongodb://the_username:the_password@mongo:27017/the_database?authSource=the_database
       REDIS_URL: redis://redis:6379
     depends_on:
-      - mongo
-      - redis
+      mongo:
+        condition: service_started
+      redis:
+        condition: service_healthy
   app:
     image: todo-front
     build: 
