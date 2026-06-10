@@ -29,7 +29,7 @@ services:
       context: ./todo-frontend
       dockerfile: Dockerfile
     environment:
-      VITE_BACKEND_URL: http://localhost:8080/api
+      VITE_BACKEND_URL: http://nginx/api
     depends_on:
       - backend
   nginx:
