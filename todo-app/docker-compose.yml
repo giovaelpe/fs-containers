@@ -23,23 +23,19 @@ services:
     depends_on:
       - mongo
       - redis
-    volumes:
-      - ./todo-backend:/usr/src/app
-      - /usr/src/app/node_modules
   app:
     image: todo-frontend
     build: 
       context: ./todo-frontend
       dockerfile: Dockerfile
-    volumes:
-      - ./todo-frontend:/usr/src/app
-      - /usr/src/app/node_modules
+    environment:
+      VITE_BACKEND_URL: http://localhost:8080/api
     depends_on:
       - backend
   nginx:
     image: nginx:1.29
     volumes:
-      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - 8080:80
     depends_on:

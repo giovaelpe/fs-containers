@@ -1,7 +1,7 @@
 #Test stage
 FROM node:24 AS test-stage
 WORKDIR /usr/src/app
-ENV VITE_BACKEND_URL=http://localhost:8080
+ENV VITE_BACKEND_URL=http://localhost:8080/api
 COPY . .
 RUN npm ci
 RUN npm test
